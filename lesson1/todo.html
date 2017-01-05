@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .completed {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <task-app :list="tasks"></task-app>
+
+        <task-app :list="[{body:'have a drinking',disable:false}]"></task-app>
+
+        <task-app :list="tasks"></task-app>
+    </div>
+    <template id="task-template">
+        <h1>My tasks <span v-show="todos"> ({{todos}})</span></h1>
+        <ul>
+            <li @click="task.disable = !task.disable" v-for="task in list" :class="{'completed' : task.disable}">
+                {{task.body}}
+                <strong @click="deleteTask(task)">X</strong>
+            </li>
+        </ul>
+    </template>
+    <script src="../vue.js"></script>
+    <script>
+        Vue.component("task-app",{
+            template : "#task-template",
+            props : ['list'],
+            methods : {
+                deleteTask : function(task){
+                    this.list.$remove(task)
+                }
+            },
+            computed : {
+                todos : function(task){
+                    return this.list.filter(function(task){
+                       return !task.disable
+                    }).length
+                }
+            }
+        })
+
+        new Vue({
+            el : "#app",
+            data : {
+                tasks : [
+                    {body : "learn vue.js",disable : true},
+                    {body : "sleep one hour",disable : false},
+                    {body : "have a lunch",disable : true}
+                ]
+            }
+        })
+    </script>
+</body>
+</html>

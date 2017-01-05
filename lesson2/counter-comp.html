@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>counter component</title>
+</head>
+<body>
+    <div id="app">
+        <counter header="Like" color="green"></counter>
+        <counter header="Dislike" color="red"></counter>
+    </div>
+    <template id="counter-template">
+        <h1>{{ header }}</h1>
+        <button @click="count++ " style="background-color:{{ color}}">submit  {{ count }}</button>
+    </template>
+    <script src="../vue.js"></script>
+    <script>
+        Vue.component("counter",{
+            template : "#counter-template",
+            props : ['header','color'],
+            data : function(){
+                return { count : 0}
+            }
+        })
+        new Vue({
+            el : "#app"
+        })
+    </script>
+</body>
+</html>

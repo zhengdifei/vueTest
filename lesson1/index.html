@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue js</title>
+</head>
+<body>
+    <div id="app">
+        <div class="error" v-if="!message">Your must enter a message1</div>
+        <div class="error" v-show="!message">Your must enter a message2</div>
+       <h1>{{message}}</h1>
+        <form action="show.html" @submit.prevent="submitAction">
+            <input type="text" v-model="message"/>
+            <button type="submit" v-show="message">Send messeage</button>
+        </form>
+        <button type="button" @click="addFun" >num:{{num}}</button>
+        <button type="button" @click="num += 1" >num:{{num}}</button>
+        <counter header="liking" color="green"></counter>
+        <counter header="unlike" color="red"></counter>
+        <counter header="unlike" color="yellow"></counter>
+    <template id="counter-template">
+        <h1>{{header}}</h1>
+        <button type="button" @click="count += 1" style="background:{{ color }}">{{count}}</button>
+    </template>
+    <script src="../vue.js"></script>
+    <script>
+        Vue.component("counter",{
+            template : "#counter-template",
+            props : ["header","color"],
+            data : function(){
+                return { count : 0}
+            }
+        })
+        new Vue({
+            el : '#app',
+            data : {
+                message : "Hello World!",
+                num : 0
+            },
+            methods : {
+                submitAction : function(e){
+                    alert('show test');
+                    e.preventDefault();
+                },
+                addFun : function(){
+                    this.num += 1;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

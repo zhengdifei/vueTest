@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>todo component</title>
+    <style>
+        .completed {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <my-todo :list="tasks"></my-todo>
+        <my-todo :list="[{name:'love',completed:false}]"></my-todo>
+    </div>
+    <template id="todo-template">
+        <h1>Task <span v-show="remain">({{ remain }})</span></h1>
+        <ul>
+            <li @click="taggle(task)" :class="task.completed?'completed':''" v-for="task in list">{{ task.name }} <strong @click="remove(task)">X</strong></li>
+        </ul>
+    </template>
+    <script src="../vue.js"></script>
+    <script>
+        Vue.component('my-todo',{
+            template : '#todo-template',
+            props : ['list'],
+            methods : {
+                taggle : function(task){
+                    task.completed = !task.completed
+                },
+                remove : function(task){
+                    this.list.$remove(task)
+                }
+            },
+            computed : {
+                remain : function(){
+                    return this.list.filter(function(task){
+                        return !task.completed
+                    }).length
+                }
+            }
+        })
+        new Vue({
+            el : "#app",
+            data : {
+                tasks : [{
+                    name : "work",completed:true
+                },{
+                    name : "look",completed:false
+                },{
+                    name : "buy",completed:false
+                }]
+            }
+        })
+    </script>
+</body>
+</html>

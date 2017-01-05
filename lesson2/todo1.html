@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>todo1</title>
+    <style>
+        .completed {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <ul>
+           <li @click="taggle(task)" :class="task.completed?'completed':''" v-for="task in tasks">{{ task.name }}</li>
+        </ul>
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+        new Vue({
+            el : "#app",
+            data : {
+                tasks : [{
+                    name : "work",completed:true
+                },{
+                    name : "look",completed:false
+                },{
+                    name : "buy",completed:false
+                }]
+            },
+            methods : {
+                taggle : function(task){
+                    task.completed = !task.completed
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-on</title>
+</head>
+<body>
+    <div id="app">
+        <form id="formObj" method="get" aciton="v-show.html" @submit.prevent="onsub">
+           <button type="submit">submit</button>
+        </form>
+        <button v-on:click="add">click {{ counter }}</button>
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+        new Vue({
+            el : "#app",
+            data : {
+              counter : 0
+            },
+            methods : {
+                add : function(){
+                  this.counter++
+                },
+                onsub : function (e) {
+                    console.log("submit")
+                }
+            }
+        })
+    </script>
+</body>
+</html>

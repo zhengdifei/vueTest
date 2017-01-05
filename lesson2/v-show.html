@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-show</title>
+</head>
+<body id="app">
+    <div>
+        <form>
+            <div v-if="!message">1: the textarea is empty!</div>
+            <div v-show="!message">2: the textarea is empty!</div>
+            <textarea v-model="message"></textarea>
+            <button v-show="message">submit</button>
+        </form>
+    </div>
+    <script type="application/javascript" src="../vue.js"></script>
+    <script>
+       var v =  new Vue({
+            el : "#app",
+            data : {
+                message : ''
+            }
+        })
+    </script>
+</body>
+</html>
