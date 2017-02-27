@@ -1,0 +1,87 @@
+{
+  "total": 9,
+  "data": [
+    {
+      "ROOM": 70,
+      "MANAGER": "小王",
+      "NAME": "101栋",
+      "ADDRESS": "园区中部",
+      "COMMENT": null,
+      "ID": "3BCBB427C44CFA58AD7EEBEB53D0421B",
+      "FLOOR": 5
+    },
+    {
+      "ROOM": 80,
+      "MANAGER": "小张",
+      "NAME": "102栋",
+      "ADDRESS": "园区中部",
+      "COMMENT": null,
+      "ID": "D01C4ED33F5672988AFB525B5E808345",
+      "FLOOR": 6
+    },
+    {
+      "ROOM": 40,
+      "MANAGER": "小周",
+      "NAME": "103栋",
+      "ADDRESS": "园区东部",
+      "COMMENT": null,
+      "ID": "386493F9622738225057EDB8F24309BC",
+      "FLOOR": 4
+    },
+    {
+      "ROOM": 70,
+      "MANAGER": "小周",
+      "NAME": "104栋",
+      "ADDRESS": "园区东部",
+      "COMMENT": null,
+      "ID": "9F2E60817E7D90E3CD7316F22243D36D",
+      "FLOOR": 5
+    },
+    {
+      "ROOM": 70,
+      "MANAGER": "小刘",
+      "NAME": "105栋",
+      "ADDRESS": "园区西部",
+      "COMMENT": null,
+      "ID": "949EAE6990D3FBC4477EA0ED8538A55C",
+      "FLOOR": 5
+    },
+    {
+      "ROOM": 30,
+      "MANAGER": "小吴",
+      "NAME": "106栋",
+      "ADDRESS": "园区西部",
+      "COMMENT": null,
+      "ID": "603893FA888B7FBF62B3B136F828B561",
+      "FLOOR": 3
+    },
+    {
+      "ROOM": 40,
+      "MANAGER": "小赵",
+      "NAME": "107栋",
+      "ADDRESS": "园区南部",
+      "COMMENT": "用电较多",
+      "ID": "4AD1F5632FAF8231B3A9B3EC79D29468",
+      "FLOOR": 4
+    },
+    {
+      "ROOM": 40,
+      "MANAGER": "小张",
+      "NAME": "108栋",
+      "ADDRESS": "园区南部",
+      "COMMENT": null,
+      "ID": "1FF0E703E256FE5029FF89F830DF023B",
+      "FLOOR": 4
+    },
+    {
+      "ROOM": 10,
+      "MANAGER": "小郑",
+      "NAME": "109栋",
+      "ADDRESS": "园区北部",
+      "COMMENT": "用电大户",
+      "ID": "DE1367C0CAC21E13FD68D969A55633F9",
+      "FLOOR": 2
+    }
+  ],
+  "success": true
+}
