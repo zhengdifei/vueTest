@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>history Router</title>
+</head>
+<body>
+    <div id="app">
+        <button @click="toUser">user</button>
+        <button @click="replaceUser">replace</button>
+        <button @click="toGo">go</button>
+        <button @click="routeName">route name</button>
+        <router-view></router-view>
+        <router-view name="left"></router-view>
+        <router-view name="main"></router-view>
+    </div>
+    <script src="../vue2.js"></script>
+    <script src="../vue-router.js"></script>
+    <script>
+        const User = {
+            template : '<p>hello {{ $route.params.username }}<br></p>'
+        }
+
+        const Left = {
+            template : '<p>menu<br><router-link to="/change/123">redirect</router-link> <router-link to="/alias/hello">alias</router-link></p>'
+        }
+        const Main1 = {
+            template : '<p>main 1<br></p>'
+        }
+        const Main2 = {
+            template : '<p>main 2<br>{{ $router.params.username }}</p>'
+        }
+        const router = new VueRouter({
+            mode : 'history',
+            routes : [{
+                name : 'user',
+                path : '/foo/:username',
+                components : {
+                    default : User ,
+                    left : Left,
+                    main : Main1
+                }
+            },{
+                path : '/change/:username',
+                redirect : '/foo/:username'
+            },{
+                path : '/foo/:username',
+                alias : '/alias/:username'
+            }]
+        })
+
+        const app = new Vue({
+            router : router,
+            methods : {
+                toUser : function(){
+                    this.$router.push('/foo/zdf123')
+                },
+                replaceUser : function(){
+                    this.$router.replace('/foo/vue')
+                },
+                toGo : function(){
+                    this.$router.go(-1)
+                },
+                routeName : function(){
+                    this.$router.push({name : 'user',params:{'username':'route-name'},query: {'id':123456}})
+                }
+            }
+        }).$mount('#app')
+    </script>
+</body>
+</html>

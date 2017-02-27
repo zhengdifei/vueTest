@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dynamic router</title>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/foo/zdf">zdf</router-link>
+        <router-view></router-view>
+    </div>
+
+    <script src="../vue2.js"></script>
+    <script src="../vue-router.js"></script>
+    <script>
+        const User = {
+            template : '<p>hello {{ $route.params.username }}<br></p>',
+            watch : {
+                '$route' (to,from) {
+                    console.log(to)
+                    console.log(from)
+                }
+            }
+        }
+
+        const router = new VueRouter({
+            routes : [{
+                path : '/foo/:username',
+                component : User
+            }]
+        })
+
+        const app = new Vue({
+            router
+        }).$mount('#app')
+    </script>
+</body>
+</html>

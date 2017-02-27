@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>programme Router</title>
+</head>
+<body>
+    <div id="app">
+        <button @click="toUser">user</button>
+        <button @click="replaceUser">replace</button>
+        <button @click="toGo">go</button>
+        <button @click="routeName">route name</button>
+        <router-view></router-view>
+    </div>
+    <script src="../vue2.js"></script>
+    <script src="../vue-router.js"></script>
+    <script>
+        const User = {
+            template : '<p>hello {{ $route.params.username }}<br></p>',
+            watch : {
+                '$route' (to,from) {
+                    console.log(to)
+                    console.log(from)
+                }
+            }
+        }
+
+        const router = new VueRouter({
+            routes : [{
+                name : 'user',
+                path : '/foo/:username',
+                component : User
+            }]
+        })
+
+        const app = new Vue({
+            router : router,
+            methods : {
+                toUser : function(){
+                    this.$router.push('/foo/zdf123')
+                },
+                replaceUser : function(){
+                    this.$router.replace('/foo/vue')
+                },
+                toGo : function(){
+                    this.$router.go(-1)
+                },
+                routeName : function(){
+                    this.$router.push({name : 'user',params:{'username':'route-name'},query: {'id':123456}})
+                }
+            }
+        }).$mount('#app')
+    </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hook Router</title>
+    <style>
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity .5s
+        }
+        .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+            opacity: 0
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button @click="toUser">user</button>
+        <button @click="replaceUser">replace</button>
+        <button @click="toGo">go</button>
+        <button @click="routeName">route name</button>
+        <transition name="fade">
+            <keep-alive>
+                <router-view></router-view>
+            </keep-alive>
+        </transition>
+        <router-view name="left"></router-view>
+        <router-view name="main"></router-view>
+    </div>
+    <script src="../vue2.js"></script>
+    <script src="../vue-router.js"></script>
+    <script>
+        const User = {
+            template : '<p>hello {{ $route.params.username }}<br></p>',
+            beforeRouteEnter : function(to,from,next){
+                // 在渲染该组件的对应路由被 confirm 前调用
+                // 不！能！获取组件实例 `this`
+                // 因为当钩子执行前，组件实例还没被创建
+                next()
+            },
+            beforeRouteLeave : function(to,from,next){
+                // 导航离开该组件的对应路由时调用
+                // 可以访问组件实例 `this`
+                next()
+            }
+        }
+
+        const Left = {
+            template : '<p>menu<br><router-link to="/change/123">redirect</router-link> <router-link to="/alias/hello">alias</router-link></p>'
+        }
+        const Main1 = {
+            template : '<p>main 1<br></p>'
+        }
+        const Main2 = {
+            template : '<p>main 2<br>{{ $router.params.username }}</p>'
+        }
+        const router = new VueRouter({
+            routes : [{
+                name : 'user',
+                path : '/foo/:username',
+                components : {
+                    default : User ,
+                    left : Left,
+                    main : Main1
+                },
+                beforeEnter : function(to,from,next){
+                    next()
+                }
+            },{
+                path : '/change/:username',
+                redirect : '/foo/:username'
+            },{
+                path : '/foo/:username',
+                alias : '/alias/:username'
+            }]
+        })
+
+        router.beforeEach(function(to,from,next){
+            if(to.params['username'] == 'zdf123'){
+                next()
+            }else if(to.params['username'] == 'vue'){
+                next("/alias/zdf123")
+            }else if(to.params['username'] == '123'){
+                next()
+            }else{
+                next(false)
+            }
+        })
+
+        router.afterEach(function(to,from){
+
+        })
+
+        const app = new Vue({
+            router : router,
+            methods : {
+                toUser : function(){
+                    this.$router.push('/foo/zdf123')
+                },
+                replaceUser : function(){
+                    this.$router.replace('/foo/vue')
+                },
+                toGo : function(){
+                    this.$router.go(-1)
+                },
+                routeName : function(){
+                    this.$router.push({name : 'user',params:{'username':'route-name'},query: {'id':123456}})
+                }
+            }
+        }).$mount('#app')
+    </script>
+</body>
+</html>

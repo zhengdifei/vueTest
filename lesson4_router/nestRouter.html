@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nest router</title>
+</head>
+<body>
+    <div id="app">
+        <p>menu</p>
+        <router-link to="/home">Home</router-link>
+        <router-link to="/user/zdf">User</router-link>
+        <router-view></router-view>
+    </div>
+    <script src="../vue2.js"></script>
+    <script src="../vue-router.js"></script>
+    <script>
+        const Home = {
+            template : '<p>welcome !</p>'
+        }
+        const User = {
+            template : '<div><p>hello {{ $route.params.name}}</p><h3><router-link :to="newPath">add</router-link></h3><router-view></router-view></div>',
+            computed : {
+                newPath : function(){
+                    return this.$route.path + "/add";
+                }
+            }
+        }
+
+        const AddUser = {
+            template : "<div>add user : {{ $route.params}}</div>"
+        }
+        const router = new VueRouter({
+            routes : [{
+                path : '/home',
+                component : Home
+            },{
+                path : '/user/:name',
+                component : User,
+                children : [{
+                    path : 'add',
+                    component : AddUser
+                }]
+            }]
+        })
+
+        const app = new Vue({
+            router
+        }).$mount('#app')
+
+    </script>
+</body>
+</html>
