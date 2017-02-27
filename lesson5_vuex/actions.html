@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>actions fun</title>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="todo,index in mytodos">{{ todo.name}}     <button @click="delTodo(index)">X</button></li>
+        </ul>
+        <button @click="filterTodo">filter</button>
+        <button @click="allTodo">all</button>
+        <button @click="addTodo">add</button>
+    </div>
+    <script src="../vue2.js"></script>
+    <script src="../vuex.js"></script>
+    <script>
+        const DEL_TODO = 'DEL_TODO'
+        const ADD_TODO = 'ADD_TODO'
+
+        const store = new Vuex.Store({
+            state : {
+                todos : [{
+                    name : 'works',
+                    completed : true
+                },{
+                    name : 'look',
+                    completed : false
+                },{
+                    name : 'cook',
+                    completed : true
+                }]
+            },
+            mutations : {
+                [DEL_TODO] : function (state,payload){
+                    state.todos.splice(payload.index,1)
+                },
+                [ADD_TODO] : function(state,payload){
+                    state.todos.push({name : payload.name,completed : payload.completed})
+                }
+            },
+            actions : {
+                [DEL_TODO] : function (context,payload){
+                    setTimeout(function(){
+                        context.commit(DEL_TODO,payload.index,1)
+                    },2000)
+                },
+                [ADD_TODO] : function(context,payload){
+                    setTimeout(function(){
+                        context.commit(ADD_TODO,payload)
+                    },2000)
+                }
+            }
+        })
+
+        const app = new Vue({
+            el : "#app",
+            store,
+            data : {
+                mytodos : []
+            },
+            methods : {
+                filterTodo : function(){
+                    this.mytodos = this.$store.state.todos.filter(function(todo){return todo.completed})
+                },
+                allTodo : function(){
+                    this.mytodos = this.$store.state.todos
+                },
+                delTodo : function(i){
+                    this.$store.dispatch(DEL_TODO,{'index' : i})
+                },
+                addTodo : function(){
+                    this.$store.dispatch(ADD_TODO,{name : 'run',completed : false})
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>form fun</title>
+</head>
+<body>
+    <div id="app">
+
+        <form>
+            <p>num1: <input v-model="num1"/></p>
+            <p>num2: <input v-model="num2"/></p>
+        </form>
+        <button @click="add1">add1</button>
+        <button @click="add2">add2</button>
+    </div>
+    <script src="../vue2.js"></script>
+    <script src="../vuex.js"></script>
+    <script>
+        const store = new Vuex.Store({
+           state : {
+                num1 : 1,
+                num2 : 2,
+                obj : {
+                    num3 : 3,
+                    num4 : 4
+                }
+            },
+            mutations : {
+                addNum1 : function(state){
+                    state.num1++
+                },
+                addNum2 : function(state){
+                    state.num2++
+                },
+                updateNum1 : function(state,n){
+                    state.num1 = n
+                }
+            }
+        })
+
+        const app = new Vue({
+            el : '#app',
+            store,
+            computed : {
+              num1 : {
+                  get : function(){
+                      return this.$store.state.num1
+                  },
+                  set : function(value){
+                      this.$store.commit('updateNum1',value)
+                  }
+              },
+              num2 : function(){
+                  return this.$store.state.num2
+              }
+            },
+            methods : Vuex.mapMutations({
+                add1 : 'addNum1',
+                add2 : 'addNum2'
+            })
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>getters fun</title>
+</head>
+<body>
+    <div id="app">
+        <p v-if="len != 0">want todo length : {{ len }}</p>
+        <ul>
+            <li v-for="todo in mytodos">{{ todo.name}}</li>
+        </ul>
+        <button @click="filterTodo">filter</button>
+        <button @click="allTodo">all</button>
+        <button @click="todoLen">len</button>
+    </div>
+    <script src="../vue2.js"></script>
+    <script src="../vuex.js"></script>
+    <script>
+        const store = new Vuex.Store({
+            state : {
+                todos : [{
+                    name : 'works',
+                    completed : true
+                },{
+                    name : 'look',
+                    completed : false
+                },{
+                    name : 'cook',
+                    completed : true
+                }]
+            },
+            getters : {
+                allTodo : function(state){
+                    return state.todos
+                },
+                wantTodo : function(state){
+                    return state.todos.filter(function(todo){return todo.completed})
+                },
+                len : function (state,getters) {
+                    return getters.wantTodo.length
+                }
+            }
+        })
+
+        const app = new Vue({
+            el : "#app",
+            store,
+            data : {
+                mytodos : [],
+                len : 0
+            },
+            methods : {
+                filterTodo : function(){
+                    this.mytodos = this.$store.getters.wantTodo
+                },
+                allTodo : function(){
+                    this.mytodos = this.$store.state.todos
+                },
+                todoLen : function(){
+                    this.len = this.$store.getters.len
+                }
+            }
+        })
+    </script>
+</body>
+</html>

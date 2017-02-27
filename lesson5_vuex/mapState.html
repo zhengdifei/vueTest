@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test mapState fun</title>
+</head>
+<body>
+    <div id = "app">
+        <p>num1 : {{ a1 }}</p>
+        <p>num2 : {{ a2 }}</p>
+        <p>num3 : {{ a3 }}</p>
+        <div>
+            <button @click="addNum1">add num1</button>
+            <button @click="addNum2">add num2</button>
+            <button @click="addNum3">add num3</button>
+        </div>
+    </div>
+<script src="../vue2.js"></script>
+<script src="../vuex.js"></script>
+<script>
+    const store = new Vuex.Store({
+        //strict : true,
+        state : {
+            num1 : 1,
+            num2 : 2,
+            num3 : 3
+        },
+        mutations : {
+            addNum1 : function(state){
+                state.num1++
+            },
+            addNum2 : function(state){
+                state.num2 = state.num2 +2
+            },
+            addNum3 : function(state){
+                state.num3 = state.num3 +3
+            }
+        }
+    })
+
+    const app = new Vue({
+        el : "#app",
+        store,
+        data : {
+            lamda : 20
+        },
+        //computed : Vuex.mapState(['num1','num2','num3']),
+        computed : Vuex.mapState({
+           a1 : function(state){
+                return state.num1
+            },
+            a2 : 'num2',
+            a3 : function(state){
+                return state.num3 + this.lamda
+            }
+        }),
+        methods : {
+            addNum1 : function(){
+                this.$store.commit('addNum1')
+            },
+            addNum2 : function(){
+                this.$store.commit('addNum2')
+            },
+            addNum3 : function(){
+                this.$store.commit('addNum3')
+            }
+        }
+    })
+</script>
+</body>
+</html>

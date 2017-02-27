@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>plugin fun</title>
+</head>
+<body>
+    <div id="app">
+        <p>num1: {{ num1}}</p>
+        <p>num2: {{ num2}}</p>
+        <button @click="add1">add1</button>
+        <button @click="add2">add2</button>
+    </div>
+    <script src="../vue2.js"></script>
+    <script src="../vuex.js"></script>
+    <script>
+        const plugin = function(store){
+            store.subscribe(function(mutation,state){
+//                console.log(mutation)
+//                console.log(state)
+            })
+        }
+
+        const myPluginWithSnapshot = function(store){
+//            let prevState = _.cloneDeep(store.state)
+//            store.subscribe(function(mutation,state){
+//                let nextState = _.cloneDeep(state)
+//                console.log(prevState)
+//                console.log(nextState)
+//                prevState = nextState
+//            })
+        }
+
+        const store = new Vuex.Store({
+            plugins : [myPluginWithSnapshot],
+            state : {
+                num1 : 1,
+                num2 : 2
+            },
+            mutations : {
+                addNum1 : function(state){
+                    state.num1++
+                },
+                addNum2 : function(state){
+                    state.num2++
+                }
+            }
+        })
+
+        const app = new Vue({
+            el : '#app',
+            store,
+            computed : Vuex.mapState(['num1','num2']),
+            methods : Vuex.mapMutations({
+                add1 : 'addNum1',
+                add2 : 'addNum2'
+            })
+        })
+    </script>
+</body>
+</html>

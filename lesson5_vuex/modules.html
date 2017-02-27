@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>modules fun</title>
+</head>
+<body>
+    <div id="app">
+        <p>num1 : {{ num1 }}</p>
+        <p>num3 : {{ num3 }}</p>
+        <p>sum : {{ sum }}</p>
+        <button @click="addNum1">add1</button>
+        <button @click="sumA">sumA</button>
+    </div>
+    <script src="../vue2.js"></script>
+    <script src="../vuex.js"></script>
+    <script>
+        const moduleA = {
+            state : {
+                num1 : 1,
+                num2 : 2
+            },
+            mutations : {
+                addNum1 : function(state){
+                    state.num1++
+                }
+            },
+            getters : {
+                sum : function(state,getters,rootState){
+                    return state.num1 + rootState.b.num3
+                }
+            }
+        }
+        const moduleB = {
+            state :{
+                num3 : 3,
+                num4 : 4
+            },
+            mutations : {
+                addNum1 : function(state){
+                    state.num3++
+                }
+            }
+        }
+
+        const store = new Vuex.Store({
+            modules : {
+                a : moduleA,
+                b : moduleB
+            }
+        })
+
+        const app = new Vue({
+            el : '#app',
+            store,
+            data : {
+                sum : 0
+            },
+            computed :{
+                num1 : function() {
+                    return this.$store.state.a.num1
+                },
+                num3 : function(){
+                    return this.$store.state.b.num3
+                }
+            },
+            methods : {
+                addNum1 : function(){
+                    this.$store.commit('addNum1')
+                },
+                sumA : function(){
+                    console.log(this.$store)
+                    this.sum = this.$store.getters.sum
+                }
+            }
+        })
+    </script>
+</body>
+</html>
