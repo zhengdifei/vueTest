@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>curd grid</title>
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+    <div id="app" class="container panel panel-default">
+        <div class="panel-heading">CURD Grid</div>
+        <div class="panel-body">
+            <form class="form-group">
+                search:<input type="text" class="form-control" v-model="searchQuery">
+            </form>
+        </div>
+        <my-grid :search-query="searchQuery" :grid-columns="gridColumns" :grid-data="gridData"></my-grid>
+    </div>
+    <template id="my-grid">
+        <div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th v-for="col in gridColumns">{{col | capitalize}}</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="(index,datas) in gridData | filterBy searchQuery">
+                    <td>{{datas.id}}</td>
+                    <td>{{datas.name}}</td>
+                    <td>{{datas.age}}</td>
+                    <td>
+                        <button class="bg-danger" @click="del(index)">delete</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <form-dialog :mode="mode" :title="title" :fields="columns" :item="item"></form-dialog>
+        </div>
+    </template>
+    <template id="form-dialog">
+        <div class="container modal-dialog" :class="{'display': show}">
+            <div>
+                <header>
+                    <h1>{{title}}</h1>
+                </header>
+                <footer>
+                    <div class="form-group">
+                        <label></label>
+                        <button>save</button>
+                        <button>close</button>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </template>
+    <script src="../vue.js"></script>
+    <script>
+        Vue.component('myGrid', {
+            template : '#my-grid',
+            props : {
+                searchQuery : String,
+                gridColumns : Array,
+                gridData : Array
+            },
+            beforeCreate : function(){
+                console.log("child_beforeCreate")
+            },
+            created : function(){
+                console.log("child_created")
+            },
+            beforeMount : function(){
+                console.log("child_beforeMount")
+            },
+            mounted : function(){
+                console.log("child_mounted")
+            },
+            beforeUpdate : function(){
+                console.log("child_beforeUpdate")
+            },
+            updated : function(){
+                console.log("child_updated")
+            },
+            activated : function(){
+                console.log("child_activated")
+            },
+            deactivated : function(){
+                console.log("child_deactivated")
+            },
+            beforeDestroy : function(){
+                console.log("child_beforeDestroy")
+            },
+            destroyed : function(){
+                console.log("child_destroyed")
+            },
+            components : {
+                'form-dialog' : {
+                    template : '#form-dialog',
+                    props : ['mode','title','fields','item'],
+                    data : function(){
+                        return {
+                            show : false
+                        }
+                    },
+                    methods : {
+                        save : function(){
+
+                        },
+                        close : function(){
+                            this.show = false
+                        }
+                    }
+                }
+            },
+            methods : {
+                del : function(index){
+                    this.gridData.splice(index,1)
+                }
+            }
+        })
+
+        new Vue({
+            el : "#app",
+            beforeCreate : function(){
+                console.log("beforeCreate")
+            },
+            created : function(){
+                console.log("created")
+            },
+            beforeMount : function(){
+                console.log("beforeMount")
+            },
+            mounted : function(){
+                console.log("mounted")
+            },
+            beforeUpdate : function(){
+                console.log("beforeUpdate")
+            },
+            updated : function(){
+                console.log("updated")
+            },
+            activated : function(){
+                console.log("activated")
+            },
+            deactivated : function(){
+                console.log("deactivated")
+            },
+            beforeDestroy : function(){
+                console.log("beforeDestroy")
+            },
+            destroyed : function(){
+                console.log("destroyed")
+            },
+            data : {
+                searchQuery : '',
+                gridColumns : ['id','name','age'],
+                gridData : [{
+                    id : 1,
+                    name : 'zdf1',
+                    age : 18
+                },{
+                    id : 2,
+                    name : 'zdf2',
+                    age : 19
+                },{
+                    id : 3,
+                    name : 'zdf3',
+                    age : 20
+                },{
+                    id : 4,
+                    name : 'zdf4',
+                    age : 21
+                }]
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dialog</title>
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+    <div id="app" class="panel panel-default">
+        <my-dialog>
+            <header slot="header">
+                <div class="panel panel-info">提示信息</div>
+            </header>
+            <div slot="body">
+                <p>弹出框</p>
+            </div>
+            <div slot="footer">
+                <button class="btn-success">确定</button>
+            </div>
+        </my-dialog>
+    </div>
+    <template id="dialog">
+        <div class="panel">
+            <slot name="header">header</slot>
+            <slot name="body">body</slot>
+            <slot name="footer">footer</slot>
+        </div>
+    </template>
+    <script src="../vue2.js"></script>
+    <script>
+        new Vue({
+            el : '#app',
+            components : {
+                'my-dialog' : {
+                    template : '#dialog'
+                }
+            }
+        })
+    </script>
+</body>
+</html>

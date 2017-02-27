@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue1 props deliver</title>
+</head>
+<body>
+    <div id="app">
+        <div>
+            Parent Name: {{name}}
+            Parent Age: {{age}}
+            <form>
+                <input type="text" v-model="age">
+            </form>
+        </div>
+        <my-component v-bind:my-name.sync="name" v-bind:my-age.once="age"></my-component>
+    </div>
+    <template id="my-comp">
+        <div>
+            <div>name:{{myName}}   age:{{myAge}}</div>
+            <form>
+                <input type="text" v-model="myName">
+            </form>
+        </div>
+    </template>
+    <script src="../vue.js"></script>
+    <script>
+        var myComponet = Vue.extend({
+            template : '#my-comp',
+            props : {
+                'myName' : String,
+                'myAge' : Number
+            }
+        })
+
+        Vue.component('my-component',myComponet);
+
+        new Vue({
+            el : '#app',
+            data : {
+                name : 'zheng',
+                age : 18
+            }
+        })
+    </script>
+</body>
+</html>

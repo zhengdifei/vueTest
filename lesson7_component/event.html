@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>event test</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="parentMsg">
+        <button @click="notify">broadcast</button>
+        {{msgs}}
+        <parent-comp></parent-comp>
+    </div>
+    <template id="parent-comp">
+        <div>
+            parent:{{msgs}}
+            <child-comp></child-comp>
+        </div>
+    </template>
+    <template id="child-comp">
+        <div>
+            <input type="text" v-model="msg">
+            <button @click="notify">dispatch event</button>
+            {{parentMsgs}}
+        </div>
+    </template>
+    <script src="../vue.js"></script>
+    <script>
+        Vue.component('parent-comp',{
+            template : '#parent-comp',
+            data : function(){
+                return {
+                    msgs : []
+                }
+            },
+            events: {
+                'child-msg' : function(msg){
+                    this.msgs.push(msg)
+                }
+            }
+        })
+
+        Vue.component('child-comp',{
+            template : '#child-comp',
+            data : function(){
+                return {
+                    msg : '',
+                    parentMsgs : []
+                }
+            },
+            events : {
+              'parent-msg' : function(msg){
+                  this.parentMsgs.push(msg)
+              }
+            },
+            methods : {
+                notify : function(){
+                    if(this.msg.trim()) {
+                        this.$dispatch('child-msg',this.msg)
+                        this.msg = ''
+                    }
+                }
+            }
+        })
+        new Vue({
+            el : '#app',
+            data : {
+                parentMsg : '',
+                msgs : []
+            },
+            methods : {
+                notify : function(){
+                    if(this.parentMsg.trim()) {
+                        this.$broadcast('parent-msg',this.parentMsg)
+                        this.parentMsg = ''
+                    }
+                }
+            },
+            events: {
+                'child-msg' : function(msg){
+                    this.msgs.push(msg)
+                }
+            }
+
+        })
+    </script>
+</body>
+</html>

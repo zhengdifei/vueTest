@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>simple grid</title>
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+    <div id="app" class="panel panel-default">
+        <div class="panel-heading">Simple Grid</div>
+        <div class="panel-body">
+            <form class="form-group">
+                search:<input type="text" class="form-control" v-model="searchQuery">
+            </form>
+        </div>
+        <my-grid :search-query="searchQuery" :grid-columns="gridColumns" :grid-data="gridData"></my-grid>
+    </div>
+    <template id="my-grid">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th v-for="col in gridColumns">{{col | capitalize}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="datas in gridData | filterBy searchQuery ">
+                    <td>{{datas.id}}</td>
+                    <td>{{datas.name}}</td>
+                    <td>{{datas.age}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </template>
+    <script src="../vue.js"></script>
+    <script>
+        Vue.component('myGrid', {
+            template : '#my-grid',
+            props : {
+                searchQuery : String,
+                gridColumns : Array,
+                gridData : Array
+            }
+        })
+
+        new Vue({
+            el : "#app",
+            data : {
+                searchQuery : '',
+                gridColumns : ['id','name','age'],
+                gridData : [{
+                    id : 1,
+                    name : 'zdf1',
+                    age : 18
+                },{
+                    id : 2,
+                    name : 'zdf2',
+                    age : 19
+                },{
+                    id : 3,
+                    name : 'zdf3',
+                    age : 20
+                },{
+                    id : 4,
+                    name : 'zdf4',
+                    age : 21
+                }]
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>parent and children</title>
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+    <div id="app">
+        <parent-component @cli="showChildComp">
+            <button @click="showChildComp">click1</button>
+        </parent-component>
+    </div>
+    <template id="parent-component">
+        <div>
+            <h1>{{msg}}</h1>
+            <child1-component ref="one"></child1-component>
+            <child2-component ref="two"></child2-component>
+            <slot></slot>
+            <button @click="showChildComp2">click2</button>
+        </div>
+    </template>
+    <template id="child1-component">
+        <div>
+            <h2>{{msg}}</h2>
+        </div>
+    </template>
+    <template id="child2-component">
+        <div>
+            <h3>{{msg}}</h3>
+        </div>
+    </template>
+    <script src="../vue2.js"></script>
+    <script>
+        Vue.component('parent-component',{
+            template : '#parent-component',
+            data : function () {
+                return {msg : 'parent1'}
+            },
+            methods : {
+                showChildComp2 : function(){
+                    this.$emit('cli')
+                    console.log("**********")
+                    for(var i =0;i<this.$children.length;i++){
+                        console.log(this.$children[i].msg)
+                    }
+                    console.log("**********")
+                    console.log(this.$refs.one.msg)
+                    console.log(this.$refs.two.msg)
+                    console.log("**********")
+                    console.log(this.$parent.$children[0].msg)
+                    console.log("**********")
+                    console.log(this.$root.$children[0].msg)
+                }
+            }
+        })
+        Vue.component('child1-component',{
+            template : '#child1-component',
+            data : function () {
+                return {msg : 'child1'}
+            }
+        })
+        Vue.component('child2-component',{
+            template : '#child2-component',
+            data : function () {
+                return {msg : 'child2'}
+            }
+        })
+        new Vue({
+            el : "#app",
+            methods : {
+                showChildComp : function(){
+                    for(var i =0;i<this.$children.length;i++){
+                        console.log(this.$children[i].msg)
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

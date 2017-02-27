@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>child component</title>
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+    <div id="app" class="panel panel-default">
+        <child-component></child-component>
+    </div>
+    <template id="child-component">
+        <div class="panel-heading">
+            {{msg}}
+            <button class="btn-success  " @click="show">click me!</button>
+        </div>
+    </template>
+</body>
+    <script src="../vue2.js"></script>
+    <script>
+        new Vue({
+            el : '#app',
+            components : {
+                'child-component' : {
+                    template : '#child-component',
+                    data : function(){
+                        return {msg : 'zheng'}
+                    },
+                    methods : {
+                        show : function(){
+                            console.log(this.msg)
+                        }
+                    }
+                }
+            }
+        })
+    </script>
+</html>

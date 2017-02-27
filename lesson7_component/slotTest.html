@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>slot test</title>
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+    <div id="app" class="panel panel-default">
+        <my-slot>
+            <h2>you are welcome! {{name}}</h2>
+        </my-slot>
+    </div>
+    <template id="my-slot">
+        <div class="panel-heading">
+            <div class="panel-body">Welcome guy!</div>
+            <slot>hello world!</slot>
+            <div class="panel-footer">Leave me!</div>
+        </div>
+    </template>
+    <script src="../vue2.js"></script>
+    <script>
+        Vue.component('my-slot',{
+            template : '#my-slot'
+        })
+
+        new Vue({
+            el : '#app',
+            data : {
+                name : 'zhengdifei'
+            }
+        })
+    </script>
+</body>
+</html>
